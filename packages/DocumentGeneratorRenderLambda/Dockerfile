@@ -2,7 +2,14 @@ FROM ubuntu:noble
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get -y install openjdk-21-jre
+    apt-get -y install openjdk-21-jre \
+
+COPY ./chrome /tmp/chrome
+
+RUN cat /tmp/chrome/google-chrome_amd64.deb.*.bin > /tmp/chrome/google-chrome_amd64.deb \
+    dpkg -i /tmp/chrome/google-chrome_amd64.deb && \
+    apt-get -y install -f && \
+    rm -rf /tmp/chrome
 
 WORKDIR /function
 

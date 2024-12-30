@@ -2,7 +2,7 @@ FROM ubuntu:noble
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get -y install openjdk-21-jre
+    apt-get -y install openjdk-21-jre fonts-liberation libcurl3-gnutls libcurl3-nss libcurl4 libcurl3 libgbm1 wget xdg-utils
 
 COPY ./chrome /tmp/chrome
 

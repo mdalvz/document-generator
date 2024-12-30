@@ -1,0 +1,33 @@
+plugins {
+  id 'java'
+  id 'io.freefair.lombok' version '8.11'
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation 'com.google.inject:guice:7.0.0'
+  implementation 'com.google.guava:guava:33.4.0-jre'
+  implementation 'software.amazon.awssdk:dynamodb:2.29.40'
+  implementation 'software.amazon.awssdk:dynamodb-enhanced:2.29.40'
+  implementation 'software.amazon.awssdk:sqs:2.29.40'
+  implementation 'software.amazon.awssdk:s3:2.29.40'
+  implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.2'
+  implementation 'com.fasterxml.jackson.core:jackson-annotations:2.18.2'
+}
+
+jar {
+  from {
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}
+
+group = 'dev.mdalvz.documentgeneratorcommon'
+version = '1.0'
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+}

@@ -1,0 +1,36 @@
+plugins {
+  id 'java'
+  id 'io.freefair.lombok' version '8.11'
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation project(':DocumentGeneratorCommon')
+  implementation 'software.amazon.awscdk:aws-cdk-lib:2.173.2'
+}
+
+jar {
+  manifest {
+    attributes 'Main-Class': 'dev.mdalvz.documentgeneratorcdk.DocumentGeneratorCDK'
+  }
+  from {
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}
+
+group = 'dev.mdalvz.documentgeneratorcdk'
+version = '1.0'
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+}
+
+tasks.register('run', JavaExec) {
+  dependsOn jar
+  classpath = files(jar.archiveFile)
+  mainClass = 'dev.mdalvz.documentgeneratorcdk.DocumentGeneratorCDK'
+}

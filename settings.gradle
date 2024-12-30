@@ -1,0 +1,16 @@
+rootProject.name = 'DocumentGenerator'
+
+include 'DocumentGeneratorCDK'
+project(':DocumentGeneratorCDK').projectDir = file('packages/DocumentGeneratorCDK')
+
+include 'DocumentGeneratorCommon'
+project(':DocumentGeneratorCommon').projectDir = file('packages/DocumentGeneratorCommon')
+
+include 'DocumentGeneratorLambda'
+project(':DocumentGeneratorLambda').projectDir = file('packages/DocumentGeneratorLambda')
+
+include 'DocumentGeneratorFileNotificationLambda'
+project(':DocumentGeneratorFileNotificationLambda').projectDir = file('packages/DocumentGeneratorFileNotificationLambda')
+
+include 'DocumentGeneratorRenderLambda'
+project(':DocumentGeneratorRenderLambda').projectDir = file('packages/DocumentGeneratorRenderLambda')

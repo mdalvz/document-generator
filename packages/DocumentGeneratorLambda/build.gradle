@@ -1,0 +1,28 @@
+plugins {
+  id 'java'
+  id 'io.freefair.lombok' version '8.11'
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation project(':DocumentGeneratorCommon')
+  implementation 'com.amazonaws:aws-lambda-java-core:1.2.3'
+  implementation 'com.amazonaws:aws-lambda-java-events:3.14.0'
+}
+
+jar {
+  from {
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}
+
+group = 'dev.mdalvz.documentgeneratorlambda'
+version = '1.0'
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+}

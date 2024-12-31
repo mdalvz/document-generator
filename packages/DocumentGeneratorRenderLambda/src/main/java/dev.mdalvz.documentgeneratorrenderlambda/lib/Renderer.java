@@ -22,6 +22,7 @@ public class Renderer {
 
   public @NonNull ByteBuffer render() {
     final ChromeOptions options = new ChromeOptions();
+    System.out.println("Hi");
     options.addArguments(
         "--headless=new",
         "--no-sandbox",

@@ -76,6 +76,8 @@ public class DocumentGeneratorRenderLambda implements RequestHandler<SQSEvent, B
 //                  .key(documentRecord.getInputKey())
 //                  .build());
           } catch (final Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
             documentDAO.putDocument(documentRecord.toBuilder()
                 .status(DocumentStatus.FAILED)
                 .outputKey(null)

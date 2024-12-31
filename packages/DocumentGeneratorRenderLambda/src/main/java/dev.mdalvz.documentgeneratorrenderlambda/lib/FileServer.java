@@ -3,6 +3,7 @@ package dev.mdalvz.documentgeneratorrenderlambda.lib;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.SimpleFileServer;
 import lombok.Getter;
+import lombok.NonNull;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -14,7 +15,16 @@ import java.util.UUID;
 @Getter
 public class FileServer {
 
-  private static final int PORT = 35085;
+  private static FileServer instance;
+
+  public static @NonNull FileServer getInstance() {
+    if (instance == null) {
+      instance = new FileServer();
+    }
+    return instance;
+  }
+
+  private static final int PORT = 35737;
 
   private final String host = "localhost:" + PORT;
 

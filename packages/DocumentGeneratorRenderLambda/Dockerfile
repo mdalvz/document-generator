@@ -17,6 +17,8 @@ WORKDIR /function
 
 COPY ./build/libs/DocumentGeneratorRenderLambda-1.0.jar .
 
+ENV HOME=/tmp
+
 ENTRYPOINT [ "java", "-cp", "./*", "com.amazonaws.services.lambda.runtime.api.client.AWSLambda" ]
 
 CMD [ "dev.mdalvz.documentgeneratorrenderlambda.DocumentGeneratorRenderLambda::handleRequest" ]

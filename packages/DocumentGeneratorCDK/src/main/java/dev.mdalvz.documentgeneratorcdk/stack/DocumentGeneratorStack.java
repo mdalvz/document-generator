@@ -69,7 +69,7 @@ public class DocumentGeneratorStack extends Stack {
 
     this.renderQueue = new Queue(this, "RenderQueue", QueueProps.builder()
         .removalPolicy(RemovalPolicy.DESTROY)
-        .visibilityTimeout(Duration.seconds(60))
+        .visibilityTimeout(Duration.seconds(240))
         .build());
 
     this.inputBucket = new Bucket(this, "InputBucket", BucketProps.builder()
@@ -114,7 +114,7 @@ public class DocumentGeneratorStack extends Stack {
 
     this.renderFunction = new Function(this, "RenderFunction", FunctionProps.builder()
         .runtime(Runtime.FROM_IMAGE)
-        .timeout(Duration.seconds(60))
+        .timeout(Duration.seconds(240))
         .memorySize(2048)
         .code(Code.fromAssetImage("../DocumentGeneratorRenderLambda"))
         .handler(Handler.FROM_IMAGE)

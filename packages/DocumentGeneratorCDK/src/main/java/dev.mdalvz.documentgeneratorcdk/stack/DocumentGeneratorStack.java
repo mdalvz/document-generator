@@ -10,6 +10,8 @@ import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.services.dynamodb.*;
 import software.amazon.awscdk.services.lambda.*;
 import software.amazon.awscdk.services.lambda.Runtime;
+import software.amazon.awscdk.services.lambda.eventsources.SqsEventSource;
+import software.amazon.awscdk.services.lambda.eventsources.SqsEventSourceProps;
 import software.amazon.awscdk.services.s3.*;
 import software.amazon.awscdk.services.s3.notifications.LambdaDestination;
 import software.amazon.awscdk.services.sqs.Queue;
@@ -67,6 +69,7 @@ public class DocumentGeneratorStack extends Stack {
 
     this.renderQueue = new Queue(this, "RenderQueue", QueueProps.builder()
         .removalPolicy(RemovalPolicy.DESTROY)
+        .visibilityTimeout(Duration.seconds(60))
         .build());
 
     this.inputBucket = new Bucket(this, "InputBucket", BucketProps.builder()
@@ -111,7 +114,7 @@ public class DocumentGeneratorStack extends Stack {
 
     this.renderFunction = new Function(this, "RenderFunction", FunctionProps.builder()
         .runtime(Runtime.FROM_IMAGE)
-        .timeout(Duration.seconds(30))
+        .timeout(Duration.seconds(60))
         .memorySize(2048)
         .code(Code.fromAssetImage("../DocumentGeneratorRenderLambda"))
         .handler(Handler.FROM_IMAGE)
@@ -129,6 +132,10 @@ public class DocumentGeneratorStack extends Stack {
     this.inputBucket.addEventNotification(
         EventType.OBJECT_CREATED,
         new LambdaDestination(this.fileNotificationFunction));
+
+    this.renderFunction.addEventSource(new SqsEventSource(this.renderQueue, SqsEventSourceProps.builder()
+        .batchSize(10)
+        .build()));
   }
 
 }

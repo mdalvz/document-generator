@@ -13,6 +13,7 @@ dependencies {
   implementation 'com.amazonaws:aws-lambda-java-events:3.14.0'
   implementation 'com.amazonaws:aws-lambda-java-runtime-interface-client:2.6.0'
   implementation 'org.seleniumhq.selenium:selenium-java:4.27.0'
+  implementation 'commons-io:commons-io:2.18.0'
 }
 
 jar {

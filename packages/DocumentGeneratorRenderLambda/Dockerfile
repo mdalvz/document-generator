@@ -10,6 +10,7 @@ RUN cat $(find /tmp/chrome -name "google-chrome_amd64.deb.*.bin" | sort) > /tmp/
 
 RUN dpkg -i /tmp/chrome/google-chrome_amd64.deb && \
     apt-get -y install -f && \
+    cp /tmp/chrome/chromedriver /usr/bin/chromedriver && \
     rm -rf /tmp/chrome
 
 WORKDIR /function

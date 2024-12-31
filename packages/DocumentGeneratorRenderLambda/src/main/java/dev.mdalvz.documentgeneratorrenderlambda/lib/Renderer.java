@@ -9,7 +9,9 @@ import org.openqa.selenium.print.PageMargin;
 import org.openqa.selenium.print.PageSize;
 import org.openqa.selenium.print.PrintOptions;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
 import java.time.Duration;
 import java.util.Base64;
 
@@ -20,7 +22,19 @@ public class Renderer {
 
   public @NonNull ByteBuffer render() {
     final ChromeOptions options = new ChromeOptions();
-    options.addArguments("--headless", "--no-sandbox", "--disable-dev-shm-usage");
+    options.addArguments(
+        "--headless=new",
+        "--no-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-gpu",
+        "--disable-dev-tools",
+        "--no-zygote",
+        "--single-process",
+        "--user-data-dir=" + makeTmpDir(),
+        "--data-path=" + makeTmpDir(),
+        "--disk-cache-dir=" + makeTmpDir(),
+        "--remote-debugging-pipe",
+        "--log-path=" + makeTmpDir());
     final ChromeDriver driver = new ChromeDriver(options);
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     try {
@@ -34,6 +48,14 @@ public class Renderer {
       return ByteBuffer.wrap(Base64.getDecoder().decode(driver.print(printOptions).getContent()));
     } finally {
       driver.quit();
+    }
+  }
+
+  private String makeTmpDir() {
+    try {
+      return Files.createTempDirectory("chrome-dir-").toString();
+    } catch (final IOException e) {
+      throw new RuntimeException(e);
     }
   }
 
